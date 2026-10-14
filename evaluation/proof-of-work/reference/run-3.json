@@ -1,0 +1,452 @@
+{
+  "label": "reference-run-3",
+  "solutionDir": "reference",
+  "built": true,
+  "score": 1,
+  "scorePercent": 100,
+  "passed": 65,
+  "total": 65,
+  "categories": {
+    "validation": {
+      "weight": 0.1,
+      "passed": 10,
+      "total": 10,
+      "fraction": 1,
+      "contribution": 0.1
+    },
+    "scheduling": {
+      "weight": 0.2,
+      "passed": 12,
+      "total": 12,
+      "fraction": 1,
+      "contribution": 0.2
+    },
+    "retries": {
+      "weight": 0.15,
+      "passed": 9,
+      "total": 9,
+      "fraction": 1,
+      "contribution": 0.15
+    },
+    "leases": {
+      "weight": 0.15,
+      "passed": 11,
+      "total": 11,
+      "fraction": 1,
+      "contribution": 0.15
+    },
+    "idempotency": {
+      "weight": 0.1,
+      "passed": 6,
+      "total": 6,
+      "fraction": 1,
+      "contribution": 0.1
+    },
+    "cancellation": {
+      "weight": 0.1,
+      "passed": 6,
+      "total": 6,
+      "fraction": 1,
+      "contribution": 0.1
+    },
+    "recovery": {
+      "weight": 0.2,
+      "passed": 11,
+      "total": 11,
+      "fraction": 1,
+      "contribution": 0.2
+    }
+  },
+  "checks": [
+    {
+      "id": "CAN-01",
+      "category": "cancellation",
+      "title": "cancel moves every non-terminal task to cancelled",
+      "passed": true
+    },
+    {
+      "id": "CAN-02",
+      "category": "cancellation",
+      "title": "cancelled runs hand out no leases",
+      "passed": true
+    },
+    {
+      "id": "CAN-03",
+      "category": "cancellation",
+      "title": "retry timers of a cancelled run never fire",
+      "passed": true
+    },
+    {
+      "id": "CAN-04",
+      "category": "cancellation",
+      "title": "late reports are recorded but do not change the outcome",
+      "passed": true
+    },
+    {
+      "id": "CAN-05",
+      "category": "cancellation",
+      "title": "active lease of a cancelled run: heartbeat refused, silent expiry",
+      "passed": true
+    },
+    {
+      "id": "CAN-06",
+      "category": "cancellation",
+      "title": "cancel on missing or finished runs",
+      "passed": true
+    },
+    {
+      "id": "IDM-01",
+      "category": "idempotency",
+      "title": "missing or blank Idempotency-Key is rejected; nothing created",
+      "passed": true
+    },
+    {
+      "id": "IDM-02",
+      "category": "idempotency",
+      "title": "replay returns the existing run in its current state",
+      "passed": true
+    },
+    {
+      "id": "IDM-03",
+      "category": "idempotency",
+      "title": "input comparison ignores object key order",
+      "passed": true
+    },
+    {
+      "id": "IDM-04",
+      "category": "idempotency",
+      "title": "same key with a different input conflicts",
+      "passed": true
+    },
+    {
+      "id": "IDM-05",
+      "category": "idempotency",
+      "title": "keys are global across workflows",
+      "passed": true
+    },
+    {
+      "id": "IDM-06",
+      "category": "idempotency",
+      "title": "omitted input equals null; key is trimmed",
+      "passed": true
+    },
+    {
+      "id": "LEA-01",
+      "category": "leases",
+      "title": "lease expires exactly at expiresAt and counts as an attempt",
+      "passed": true
+    },
+    {
+      "id": "LEA-02",
+      "category": "leases",
+      "title": "reports on an expired lease are rejected with 410 and change nothing",
+      "passed": true
+    },
+    {
+      "id": "LEA-03",
+      "category": "leases",
+      "title": "heartbeat extends the lease from the current time",
+      "passed": true
+    },
+    {
+      "id": "LEA-04",
+      "category": "leases",
+      "title": "expiry on the final attempt fails the task and the run",
+      "passed": true
+    },
+    {
+      "id": "LEA-05",
+      "category": "leases",
+      "title": "old lease is rejected after the task is re-leased",
+      "passed": true
+    },
+    {
+      "id": "LEA-06",
+      "category": "leases",
+      "title": "duplicate completion is idempotent; later fail/heartbeat conflict",
+      "passed": true
+    },
+    {
+      "id": "LEA-07",
+      "category": "leases",
+      "title": "duplicate failure is idempotent and consumes no extra attempt",
+      "passed": true
+    },
+    {
+      "id": "LEA-08",
+      "category": "leases",
+      "title": "lease endpoint errors and precedence",
+      "passed": true
+    },
+    {
+      "id": "LEA-09",
+      "category": "leases",
+      "title": "one advance processes several transitions at their own due times",
+      "passed": true
+    },
+    {
+      "id": "LEA-10",
+      "category": "leases",
+      "title": "clock endpoints and advance validation",
+      "passed": true
+    },
+    {
+      "id": "LEA-11",
+      "category": "leases",
+      "title": "transitions created during an advance join the same ordering",
+      "passed": true
+    },
+    {
+      "id": "REC-01",
+      "category": "recovery",
+      "title": "workflows, runs, events and clock survive a kill -9",
+      "passed": true
+    },
+    {
+      "id": "REC-02",
+      "category": "recovery",
+      "title": "id counters continue after restart",
+      "passed": true
+    },
+    {
+      "id": "REC-03",
+      "category": "recovery",
+      "title": "event sequence continues without gaps after restart",
+      "passed": true
+    },
+    {
+      "id": "REC-04",
+      "category": "recovery",
+      "title": "active leases keep their expiry across a restart",
+      "passed": true
+    },
+    {
+      "id": "REC-05",
+      "category": "recovery",
+      "title": "heartbeat extension is durable",
+      "passed": true
+    },
+    {
+      "id": "REC-06",
+      "category": "recovery",
+      "title": "idempotency keys still deduplicate after restart",
+      "passed": true
+    },
+    {
+      "id": "REC-07",
+      "category": "recovery",
+      "title": "waiting retries survive a restart and wake on time",
+      "passed": true
+    },
+    {
+      "id": "REC-08",
+      "category": "recovery",
+      "title": "completed work is not redone after a restart",
+      "passed": true
+    },
+    {
+      "id": "REC-09",
+      "category": "recovery",
+      "title": "cancellation is durable",
+      "passed": true
+    },
+    {
+      "id": "REC-10",
+      "category": "recovery",
+      "title": "end-to-end run with a crash after every step",
+      "passed": true
+    },
+    {
+      "id": "REC-11",
+      "category": "recovery",
+      "title": "state from the very last response is durable",
+      "passed": true
+    },
+    {
+      "id": "RET-01",
+      "category": "retries",
+      "title": "failed attempt waits exactly the backoff before becoming ready",
+      "passed": true
+    },
+    {
+      "id": "RET-02",
+      "category": "retries",
+      "title": "exponential backoff",
+      "passed": true
+    },
+    {
+      "id": "RET-03",
+      "category": "retries",
+      "title": "backoff is capped at maxBackoffMs",
+      "passed": true
+    },
+    {
+      "id": "RET-04",
+      "category": "retries",
+      "title": "fractional multiplier delays are floored",
+      "passed": true
+    },
+    {
+      "id": "RET-05",
+      "category": "retries",
+      "title": "exhausted attempts fail the task and skip descendants",
+      "passed": true
+    },
+    {
+      "id": "RET-06",
+      "category": "retries",
+      "title": "zero backoff makes the task ready within the same request",
+      "passed": true
+    },
+    {
+      "id": "RET-07",
+      "category": "retries",
+      "title": "maxAttempts 1 fails on the first failure",
+      "passed": true
+    },
+    {
+      "id": "RET-08",
+      "category": "retries",
+      "title": "error and history across a failure followed by success",
+      "passed": true
+    },
+    {
+      "id": "RET-09",
+      "category": "retries",
+      "title": "retry wake-ups happen at their due times in name order",
+      "passed": true
+    },
+    {
+      "id": "SCH-01",
+      "category": "scheduling",
+      "title": "new run: ready/blocked tasks and initial events",
+      "passed": true
+    },
+    {
+      "id": "SCH-02",
+      "category": "scheduling",
+      "title": "lease returns 204 when nothing is ready",
+      "passed": true
+    },
+    {
+      "id": "SCH-03",
+      "category": "scheduling",
+      "title": "lease order: priority, then run age, then task name",
+      "passed": true
+    },
+    {
+      "id": "SCH-04",
+      "category": "scheduling",
+      "title": "lease payload, parent outputs and chain progression",
+      "passed": true
+    },
+    {
+      "id": "SCH-05",
+      "category": "scheduling",
+      "title": "diamond: join task waits for all parents",
+      "passed": true
+    },
+    {
+      "id": "SCH-06",
+      "category": "scheduling",
+      "title": "type filter and lease request validation",
+      "passed": true
+    },
+    {
+      "id": "SCH-07",
+      "category": "scheduling",
+      "title": "complete event log for a successful run",
+      "passed": true
+    },
+    {
+      "id": "SCH-08",
+      "category": "scheduling",
+      "title": "task output and attempt history",
+      "passed": true
+    },
+    {
+      "id": "SCH-09",
+      "category": "scheduling",
+      "title": "event paging with after; run/event lookup errors",
+      "passed": true
+    },
+    {
+      "id": "SCH-10",
+      "category": "scheduling",
+      "title": "concurrent lease requests never share a task",
+      "passed": true
+    },
+    {
+      "id": "SCH-11",
+      "category": "scheduling",
+      "title": "independent branch keeps running after another branch fails",
+      "passed": true
+    },
+    {
+      "id": "SCH-12",
+      "category": "scheduling",
+      "title": "failure skips transitive dependents; join never becomes ready",
+      "passed": true
+    },
+    {
+      "id": "VAL-01",
+      "category": "validation",
+      "title": "valid workflow is normalized with defaults",
+      "passed": true
+    },
+    {
+      "id": "VAL-02",
+      "category": "validation",
+      "title": "explicit retry and lease settings are kept",
+      "passed": true
+    },
+    {
+      "id": "VAL-03",
+      "category": "validation",
+      "title": "empty task list is rejected",
+      "passed": true
+    },
+    {
+      "id": "VAL-04",
+      "category": "validation",
+      "title": "duplicate task names are rejected",
+      "passed": true
+    },
+    {
+      "id": "VAL-05",
+      "category": "validation",
+      "title": "unknown dependency is rejected",
+      "passed": true
+    },
+    {
+      "id": "VAL-06",
+      "category": "validation",
+      "title": "cycles and self-dependencies are rejected",
+      "passed": true
+    },
+    {
+      "id": "VAL-07",
+      "category": "validation",
+      "title": "validation rules are applied in the specified order",
+      "passed": true
+    },
+    {
+      "id": "VAL-08",
+      "category": "validation",
+      "title": "out-of-range fields are invalid_definition",
+      "passed": true
+    },
+    {
+      "id": "VAL-09",
+      "category": "validation",
+      "title": "duplicate workflow names conflict; rejections consume no ids",
+      "passed": true
+    },
+    {
+      "id": "VAL-10",
+      "category": "validation",
+      "title": "invalid JSON, unknown routes and unknown workflows",
+      "passed": true
+    }
+  ]
+}

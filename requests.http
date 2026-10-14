@@ -1,0 +1,52 @@
+### Manual smoke test (VS Code "REST Client" extension: click "Send Request")
+### Start the server first: Terminal > Run Task > "Relay: start reference server"
+@base = http://localhost:8080
+
+### Health
+GET {{base}}/health
+
+### Create workflow a -> b
+POST {{base}}/workflows
+Content-Type: application/json
+
+{"name":"demo","tasks":[{"name":"a"},{"name":"b","dependsOn":["a"]}],"retry":{"maxAttempts":2,"baseBackoffMs":1000}}
+
+### Start a run (send twice: second time returns 200 with the same run)
+POST {{base}}/workflows/wf_1/runs
+Content-Type: application/json
+Idempotency-Key: k1
+
+{"input":{"day":1}}
+
+### Worker leases the next ready task
+POST {{base}}/leases
+Content-Type: application/json
+
+{"workerId":"w1"}
+
+### Complete it
+POST {{base}}/leases/lease_1/complete
+Content-Type: application/json
+
+{"output":"done"}
+
+### Fail it instead (try on lease_2)
+POST {{base}}/leases/lease_2/fail
+Content-Type: application/json
+
+{"error":"boom"}
+
+### Advance the logical clock
+POST {{base}}/_test/clock/advance
+Content-Type: application/json
+
+{"ms":1000}
+
+### Inspect the run
+GET {{base}}/runs/run_1
+
+### Event log
+GET {{base}}/runs/run_1/events
+
+### Cancel the run
+POST {{base}}/runs/run_1/cancel

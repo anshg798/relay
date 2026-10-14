@@ -1,0 +1,11 @@
+# M05-expired-lease-accepted: complete() accepts a lease that already expired.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -358,7 +358,6 @@
+ 
+     if (lease.state === "completed") return { status: 200, body: lease.result };
+     if (lease.state === "failed") throw new ApiError(409, "lease_finalized", "lease already failed");
+-    if (lease.state === "expired") throw new ApiError(410, "lease_expired", "lease expired");
+ 
+     const run = this.state.runs[lease.runId];
+     const ts = run.tasks[lease.task];

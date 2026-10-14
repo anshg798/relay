@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "Relay: install", "type": "shell", "command": "npm install", "problemMatcher": [] },
+    { "label": "Relay: check reference (100% + determinism)", "type": "shell", "command": "npm run check:reference", "group": { "kind": "test", "isDefault": true }, "problemMatcher": [] },
+    { "label": "Relay: check mutants", "type": "shell", "command": "npm run check:mutants", "group": "test", "problemMatcher": [] },
+    { "label": "Relay: score starter (baseline 0%)", "type": "shell", "command": "npm run score -- --solution task/public --label starter", "group": "test", "problemMatcher": [] },
+    { "label": "Relay: score ./solution", "type": "shell", "command": "npm run score", "group": "test", "problemMatcher": [] },
+    { "label": "Relay: run one check on reference", "type": "shell", "command": "npm run score -- --solution reference --only ${input:checkId}", "group": "test", "problemMatcher": [] },
+    { "label": "Relay: start reference server (port 8080)", "type": "shell", "command": "bash app-setup/build.sh reference && PORT=8080 DATA_DIR=/tmp/relay-data bash app-setup/start.sh reference", "isBackground": true, "problemMatcher": [] }
+  ],
+  "inputs": [
+    { "id": "checkId", "type": "promptString", "description": "Check ID(s), comma separated", "default": "REC-10" }
+  ]
+}

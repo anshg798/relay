@@ -1,0 +1,19 @@
+{
+  "name": "relay-rl-gym-task",
+  "version": "0.1.0",
+  "private": true,
+  "description": "RL Gym task: Relay, a durable DAG workflow orchestrator with leases, retries, cancellation, idempotency and crash recovery.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "score": "node evaluation/run.mjs",
+    "check:reference": "node evaluation/check-reference.mjs",
+    "check:mutants": "node evaluation/check-mutants.mjs",
+    "env:build": "docker build -f environment/Dockerfile -t relay-env .",
+    "reset": "bash app-setup/reset.sh"
+  },
+  "devDependencies": {
+    "yaml": "2.6.1"
+  }
+}

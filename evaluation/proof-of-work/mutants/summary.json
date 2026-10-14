@@ -1,0 +1,253 @@
+[
+  {
+    "id": "M01-attempt-off-by-one",
+    "description": "Retries one time too many: compares attempt <= maxAttempts.",
+    "killed": true,
+    "score": 88.48,
+    "failed": [
+      "CAN-06",
+      "LEA-04",
+      "REC-10",
+      "RET-05",
+      "RET-07",
+      "SCH-11",
+      "SCH-12"
+    ],
+    "built": true
+  },
+  {
+    "id": "M02-uncapped-backoff",
+    "description": "Backoff ignores maxBackoffMs.",
+    "killed": true,
+    "score": 98.33,
+    "failed": [
+      "RET-03"
+    ],
+    "built": true
+  },
+  {
+    "id": "M03-rounded-backoff",
+    "description": "Backoff rounds instead of flooring fractional delays.",
+    "killed": true,
+    "score": 98.33,
+    "failed": [
+      "RET-04"
+    ],
+    "built": true
+  },
+  {
+    "id": "M04-ready-on-any-parent",
+    "description": "A dependent becomes ready when any (not all) parent succeeded.",
+    "killed": true,
+    "score": 96.52,
+    "failed": [
+      "REC-10",
+      "SCH-05"
+    ],
+    "built": true
+  },
+  {
+    "id": "M05-expired-lease-accepted",
+    "description": "complete() accepts a lease that already expired.",
+    "killed": true,
+    "score": 95.61,
+    "failed": [
+      "CAN-05",
+      "LEA-02",
+      "LEA-05"
+    ],
+    "built": true
+  },
+  {
+    "id": "M06-expiry-not-an-attempt",
+    "description": "An expired lease silently requeues the task instead of counting as a failed attempt.",
+    "killed": true,
+    "score": 89.55,
+    "failed": [
+      "LEA-01",
+      "LEA-03",
+      "LEA-04",
+      "LEA-09",
+      "LEA-11",
+      "REC-04",
+      "REC-10"
+    ],
+    "built": true
+  },
+  {
+    "id": "M07-shallow-skip",
+    "description": "Skip propagation stops at direct dependents.",
+    "killed": true,
+    "score": 96.67,
+    "failed": [
+      "RET-05",
+      "SCH-12"
+    ],
+    "built": true
+  },
+  {
+    "id": "M08-seq-not-persisted",
+    "description": "Event sequence numbers come from an in-memory counter that resets on restart.",
+    "killed": true,
+    "score": 96.36,
+    "failed": [
+      "REC-03",
+      "REC-10"
+    ],
+    "built": true
+  },
+  {
+    "id": "M09-idempotency-ignores-input",
+    "description": "Idempotent replay only compares the workflow, not the input.",
+    "killed": true,
+    "score": 94.85,
+    "failed": [
+      "IDM-04",
+      "IDM-06",
+      "REC-06"
+    ],
+    "built": true
+  },
+  {
+    "id": "M10-lease-after-cancel",
+    "description": "Cancel leaves ready tasks untouched and lease selection does not exclude cancelled runs.",
+    "killed": true,
+    "score": 94.85,
+    "failed": [
+      "CAN-01",
+      "CAN-02",
+      "REC-09"
+    ],
+    "built": true
+  },
+  {
+    "id": "M11-heartbeat-from-old-expiry",
+    "description": "Heartbeat extends from the previous expiry instead of from now.",
+    "killed": true,
+    "score": 96.82,
+    "failed": [
+      "LEA-03",
+      "REC-05"
+    ],
+    "built": true
+  },
+  {
+    "id": "M12-due-boundary",
+    "description": "Time-based transitions only fire strictly after their due time.",
+    "killed": true,
+    "score": 71.21,
+    "failed": [
+      "CAN-05",
+      "LEA-01",
+      "LEA-02",
+      "LEA-03",
+      "LEA-04",
+      "LEA-05",
+      "LEA-11",
+      "REC-04",
+      "REC-05",
+      "REC-07",
+      "REC-10",
+      "RET-01",
+      "RET-02",
+      "RET-03",
+      "RET-04",
+      "RET-05",
+      "RET-06",
+      "RET-08"
+    ],
+    "built": true
+  },
+  {
+    "id": "M13-heartbeat-not-durable",
+    "description": "Heartbeat updates memory but is never persisted.",
+    "killed": true,
+    "score": 98.18,
+    "failed": [
+      "REC-05"
+    ],
+    "built": true
+  },
+  {
+    "id": "M14-clock-not-durable",
+    "description": "Advancing the clock is not persisted.",
+    "killed": true,
+    "score": 92.73,
+    "failed": [
+      "REC-01",
+      "REC-04",
+      "REC-10",
+      "REC-11"
+    ],
+    "built": true
+  },
+  {
+    "id": "M15-ignores-run-age",
+    "description": "Priority ties are broken by task name only, ignoring run creation order.",
+    "killed": true,
+    "score": 98.33,
+    "failed": [
+      "SCH-03"
+    ],
+    "built": true
+  },
+  {
+    "id": "M16-events-at-advance-start",
+    "description": "Transitions during an advance are stamped with the start time, not their due time.",
+    "killed": true,
+    "score": 88.03,
+    "failed": [
+      "LEA-01",
+      "LEA-03",
+      "LEA-04",
+      "LEA-09",
+      "LEA-11",
+      "REC-10",
+      "RET-01",
+      "RET-09"
+    ],
+    "built": true
+  },
+  {
+    "id": "M17-late-report-applies-output",
+    "description": "A late completion on a cancelled run stores its output on the task.",
+    "killed": true,
+    "score": 98.33,
+    "failed": [
+      "CAN-04"
+    ],
+    "built": true
+  },
+  {
+    "id": "M18-duplicate-complete-conflicts",
+    "description": "A repeated completion of the same lease is rejected instead of being idempotent.",
+    "killed": true,
+    "score": 95.15,
+    "failed": [
+      "CAN-04",
+      "LEA-06",
+      "REC-08"
+    ],
+    "built": true
+  },
+  {
+    "id": "M19-cycle-check-from-first-task",
+    "description": "Cycle detection only walks the graph from the first task.",
+    "killed": true,
+    "score": 99,
+    "failed": [
+      "VAL-06"
+    ],
+    "built": true
+  },
+  {
+    "id": "M20-key-order-sensitive-input",
+    "description": "Idempotent input comparison is sensitive to object key order.",
+    "killed": true,
+    "score": 98.33,
+    "failed": [
+      "IDM-03"
+    ],
+    "built": true
+  }
+]

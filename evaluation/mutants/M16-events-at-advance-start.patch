@@ -1,0 +1,11 @@
+# M16-events-at-advance-start: Transitions during an advance are stamped with the start time, not their due time.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -86,7 +86,6 @@
+       }
+       if (best === null) break;
+       const t: Transition = best;
+-      if (t.due > this.state.now) this.state.now = t.due;
+       t.apply();
+     }
+     if (target > this.state.now) this.state.now = target;

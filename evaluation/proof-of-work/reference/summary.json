@@ -1,0 +1,13 @@
+{
+  "runs": 5,
+  "checks": 65,
+  "scores": [
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "perfect": true,
+  "deterministic": true
+}

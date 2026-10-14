@@ -1,0 +1,28 @@
+# Relay verifier scoring.
+# Score = sum over categories of (weight * passed_checks / total_checks).
+# Weights must sum to exactly 1.0. A check either passes or fails (no partial credit).
+version: 1
+pass_threshold: 1.0        # the reference must reach this score
+difficulty_ceiling: 0.30   # frontier models must stay below this score
+categories:
+  validation:
+    weight: 0.10
+    description: Workflow definition validation, normalization and error precedence
+  scheduling:
+    weight: 0.20
+    description: DAG readiness, lease ordering, payloads, event log, concurrency
+  retries:
+    weight: 0.15
+    description: Attempt counting, exponential/capped/floored backoff, exhaustion and skip propagation
+  leases:
+    weight: 0.15
+    description: Lease expiry, heartbeats, stale tokens, idempotent reports, logical clock
+  idempotency:
+    weight: 0.10
+    description: Idempotency-Key handling and canonical input comparison
+  cancellation:
+    weight: 0.10
+    description: Run cancellation, timers after cancel, late reports
+  recovery:
+    weight: 0.20
+    description: Durability across SIGKILL restarts

@@ -1,0 +1,3 @@
+{
+  "recommendations": ["anthropic.claude-code", "humao.rest-client", "ms-vscode-remote.remote-wsl"]
+}

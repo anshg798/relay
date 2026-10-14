@@ -1,0 +1,13 @@
+# M06-expiry-not-an-attempt: An expired lease silently requeues the task instead of counting as a failed attempt.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -108,7 +108,8 @@
+     entry.endedAt = lease.expiresAt;
+     if (run.status !== "running") return;
+     this.emit(run, "task.lease_expired", lease.task, { attempt: lease.attempt, leaseId: lease.id });
+-    this.attemptFailed(run, lease.task, lease.attempt, "lease_expired");
++    ts.status = "ready";
++    this.emit(run, "task.ready", lease.task, {});
+   }
+ 
+   // ------------------------------------------------------------ workflows

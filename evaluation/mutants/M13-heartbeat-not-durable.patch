@@ -1,0 +1,11 @@
+# M13-heartbeat-not-durable: Heartbeat updates memory but is never persisted.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -347,7 +347,6 @@
+     const run = this.state.runs[lease.runId];
+     if (run.status === "cancelled") throw new ApiError(409, "run_cancelled", "run cancelled");
+     lease.expiresAt = this.state.now + this.state.workflows[run.workflowId].leaseTimeoutMs;
+-    this.commit();
+     return { status: 200, body: { leaseId: lease.id, expiresAt: lease.expiresAt } };
+   }
+ 

@@ -1,0 +1,63 @@
+# Observable requirements (from task/instruction.md) mapped to verifier check IDs.
+version: 1
+criteria:
+  - id: AC-01
+    requirement: Workflow definitions are validated with the documented error codes and precedence (§4).
+    checks: [VAL-03, VAL-04, VAL-05, VAL-06, VAL-07, VAL-08]
+  - id: AC-02
+    requirement: Valid workflows are stored normalized (defaults, sorted de-duplicated dependsOn) and retrievable (§4).
+    checks: [VAL-01, VAL-02]
+  - id: AC-03
+    requirement: Workflow names are unique and rejected requests consume no IDs (§2, §4).
+    checks: [VAL-09, REC-02]
+  - id: AC-04
+    requirement: Error envelope, invalid JSON and unknown routes behave as specified (§2).
+    checks: [VAL-10, SCH-09, LEA-08]
+  - id: AC-05
+    requirement: New runs start with ready/blocked tasks and the initial events in name order (§5).
+    checks: [SCH-01]
+  - id: AC-06
+    requirement: Leases pick the highest-priority ready task, then oldest run, then name; 204 when none; type filter (§6).
+    checks: [SCH-02, SCH-03, SCH-06]
+  - id: AC-07
+    requirement: Lease payload carries run input and direct parent outputs; dependents become ready only when all parents succeed (§5, §6).
+    checks: [SCH-04, SCH-05]
+  - id: AC-08
+    requirement: Run representation, attempt history and per-run gapless event log with exact ordering (§5).
+    checks: [SCH-07, SCH-08, SCH-09, RET-08]
+  - id: AC-09
+    requirement: Concurrent lease requests are serialized and never return the same task twice (§1, §6).
+    checks: [SCH-10]
+  - id: AC-10
+    requirement: Permanent failure skips transitive dependents while independent branches continue; run outcome is computed when all tasks are terminal (§5, §7).
+    checks: [SCH-11, SCH-12, RET-05, RET-07]
+  - id: AC-11
+    requirement: Failed attempts wait min(maxBackoffMs, floor(base * multiplier^(n-1))) and wake exactly at the due time (§7).
+    checks: [RET-01, RET-02, RET-03, RET-04, RET-09]
+  - id: AC-12
+    requirement: Zero backoff makes the task ready within the same request (§7).
+    checks: [RET-06]
+  - id: AC-13
+    requirement: Leases expire exactly at expiresAt, count as an attempt and fail the task on the final attempt (§6, §7).
+    checks: [LEA-01, LEA-04]
+  - id: AC-14
+    requirement: Heartbeats extend leases from the current time; reports on expired or superseded leases return 410 without side effects (§6).
+    checks: [LEA-02, LEA-03, LEA-05]
+  - id: AC-15
+    requirement: Duplicate complete/fail reports are idempotent; conflicting reports return 409 lease_finalized (§6).
+    checks: [LEA-06, LEA-07]
+  - id: AC-16
+    requirement: The logical clock is the only time source; one advance applies all due transitions in (due, run, task) order at their own due times (§3).
+    checks: [LEA-09, LEA-10, LEA-11]
+  - id: AC-17
+    requirement: Idempotency-Key is required, global, trimmed, and compares inputs as JSON values ignoring object key order (§5).
+    checks: [IDM-01, IDM-02, IDM-03, IDM-04, IDM-05, IDM-06]
+  - id: AC-18
+    requirement: Cancelling a run cancels all non-terminal tasks, stops leases and retry timers, and rejects cancelling finished runs (§5).
+    checks: [CAN-01, CAN-02, CAN-03, CAN-06]
+  - id: AC-19
+    requirement: Late reports and expiries for leases of cancelled runs are recorded without changing the outcome (§6).
+    checks: [CAN-04, CAN-05]
+  - id: AC-20
+    requirement: All state (including clock, counters, events, leases, retries, idempotency keys and cancellation) survives SIGKILL and restart (§1).
+    checks: [REC-01, REC-02, REC-03, REC-04, REC-05, REC-06, REC-07, REC-08, REC-09, REC-10, REC-11]

@@ -1,0 +1,12 @@
+# M04-ready-on-any-parent: A dependent becomes ready when any (not all) parent succeeded.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -384,7 +384,7 @@
+           (t) =>
+             t.dependsOn.includes(lease.task) &&
+             run.tasks[t.name].status === "blocked" &&
+-            t.dependsOn.every((d) => run.tasks[d].status === "succeeded"),
++            t.dependsOn.some((d) => run.tasks[d].status === "succeeded"),
+         )
+         .map((t) => t.name)
+         .sort();

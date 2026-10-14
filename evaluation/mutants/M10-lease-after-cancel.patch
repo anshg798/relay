@@ -1,0 +1,21 @@
+# M10-lease-after-cancel: Cancel leaves ready tasks untouched and lease selection does not exclude cancelled runs.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -213,7 +213,7 @@
+     if (run.status !== "running") throw new ApiError(409, "run_finalized", "run already finished");
+     for (const name of Object.keys(run.tasks).sort()) {
+       const ts = run.tasks[name];
+-      if (TERMINAL.has(ts.status)) continue;
++      if (TERMINAL.has(ts.status) || ts.status === "ready") continue;
+       ts.status = "cancelled";
+       ts.nextAttemptAt = null;
+       this.emit(run, "task.cancelled", name, {});
+@@ -275,7 +275,7 @@
+ 
+     let pick: { run: Run; def: TaskDef } | null = null;
+     for (const run of Object.values(this.state.runs)) {
+-      if (run.status !== "running") continue;
++      if (run.status === "succeeded" || run.status === "failed") continue;
+       const wf = this.state.workflows[run.workflowId];
+       for (const def of wf.tasks) {
+         if (run.tasks[def.name].status !== "ready") continue;

@@ -1,0 +1,12 @@
+# M12-due-boundary: Time-based transitions only fire strictly after their due time.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -62,7 +62,7 @@
+     for (;;) {
+       let best: Transition | null = null;
+       const consider = (t: Transition) => {
+-        if (t.due > target) return;
++        if (t.due >= target) return;
+         if (
+           best === null ||
+           t.due < best.due ||

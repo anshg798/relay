@@ -1,0 +1,12 @@
+# M03-rounded-backoff: Backoff rounds instead of flooring fractional delays.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -448,7 +448,7 @@
+     ts.error = error;
+     const { maxAttempts, baseBackoffMs, multiplier, maxBackoffMs } = wf.retry;
+     if (attempt < maxAttempts) {
+-      const delay = Math.min(maxBackoffMs, Math.floor(baseBackoffMs * Math.pow(multiplier, attempt - 1)));
++      const delay = Math.min(maxBackoffMs, Math.round(baseBackoffMs * Math.pow(multiplier, attempt - 1)));
+       ts.status = "waiting_retry";
+       ts.nextAttemptAt = this.state.now + delay;
+       this.emit(run, "task.attempt_failed", name, { attempt, error, retryAt: ts.nextAttemptAt });

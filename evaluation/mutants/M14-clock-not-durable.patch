@@ -1,0 +1,11 @@
+# M14-clock-not-durable: Advancing the clock is not persisted.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -53,7 +53,6 @@
+       throw new ApiError(400, "invalid_request", "ms must be a non-negative integer");
+     }
+     this.processDue(this.state.now + body.ms);
+-    this.commit();
+     return { status: 200, body: { now: this.state.now } };
+   }
+ 

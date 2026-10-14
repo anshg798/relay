@@ -1,0 +1,19 @@
+# M08-seq-not-persisted: Event sequence numbers come from an in-memory counter that resets on restart.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -33,6 +33,7 @@
+ 
+ export class Engine {
+   private state: State;
++  private seqs: Record<string, number> = {};
+ 
+   constructor(private readonly store: SnapshotStore<State>) {
+     this.state = store.load() ?? freshState();
+@@ -491,6 +492,6 @@
+   }
+ 
+   private emit(run: Run, type: string, task: string | null, data: Record<string, Json>): void {
+-    run.events.push({ seq: run.events.length + 1, at: this.state.now, type, task, data });
++    run.events.push({ seq: (this.seqs[run.id] = (this.seqs[run.id] ?? 0) + 1), at: this.state.now, type, task, data });
+   }
+ }

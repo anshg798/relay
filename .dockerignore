@@ -1,0 +1,11 @@
+# Keep private assets out of the build context entirely.
+reference/
+evaluation/
+runs/
+solution/
+.eval-tmp/
+node_modules/
+**/node_modules/
+**/dist/
+**/data/
+.git/

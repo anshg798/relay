@@ -1,0 +1,12 @@
+# M15-ignores-run-age: Priority ties are broken by task name only, ignoring run creation order.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -284,7 +284,7 @@
+           pick === null ||
+           def.priority > pick.def.priority ||
+           (def.priority === pick.def.priority &&
+-            (run.seq < pick.run.seq || (run.seq === pick.run.seq && def.name < pick.def.name)))
++            (def.name < pick.def.name || (def.name === pick.def.name && run.seq < pick.run.seq)))
+         ) {
+           pick = { run, def };
+         }

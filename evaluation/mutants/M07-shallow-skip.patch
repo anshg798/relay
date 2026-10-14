@@ -1,0 +1,11 @@
+# M07-shallow-skip: Skip propagation stops at direct dependents.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -475,7 +475,6 @@
+       for (const t of wf.tasks) {
+         if (t.dependsOn.includes(cur) && !out.has(t.name)) {
+           out.add(t.name);
+-          stack.push(t.name);
+         }
+       }
+     }

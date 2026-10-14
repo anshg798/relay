@@ -1,0 +1,10 @@
+# M20-key-order-sensitive-input: Idempotent input comparison is sensitive to object key order.
+--- a/src/validate.ts
++++ b/src/validate.ts
+@@ -126,5 +126,5 @@
+     }
+     return x;
+   };
+-  return JSON.stringify(norm(v));
++  return JSON.stringify(v);
+ }

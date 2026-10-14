@@ -1,0 +1,12 @@
+# M01-attempt-off-by-one: Retries one time too many: compares attempt <= maxAttempts.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -447,7 +447,7 @@
+     const ts = run.tasks[name];
+     ts.error = error;
+     const { maxAttempts, baseBackoffMs, multiplier, maxBackoffMs } = wf.retry;
+-    if (attempt < maxAttempts) {
++    if (attempt <= maxAttempts) {
+       const delay = Math.min(maxBackoffMs, Math.floor(baseBackoffMs * Math.pow(multiplier, attempt - 1)));
+       ts.status = "waiting_retry";
+       ts.nextAttemptAt = this.state.now + delay;

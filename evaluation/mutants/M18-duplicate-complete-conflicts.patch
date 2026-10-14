@@ -1,0 +1,12 @@
+# M18-duplicate-complete-conflicts: A repeated completion of the same lease is rejected instead of being idempotent.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -356,7 +356,7 @@
+     if (body !== undefined && !isObject(body)) throw new ApiError(400, "invalid_request", "body must be an object");
+     const output: Json = body === undefined || body.output === undefined ? null : (body.output as Json);
+ 
+-    if (lease.state === "completed") return { status: 200, body: lease.result };
++    if (lease.state === "completed") throw new ApiError(409, "lease_finalized", "lease already completed");
+     if (lease.state === "failed") throw new ApiError(409, "lease_finalized", "lease already failed");
+     if (lease.state === "expired") throw new ApiError(410, "lease_expired", "lease expired");
+ 

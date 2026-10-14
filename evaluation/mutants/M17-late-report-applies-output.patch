@@ -1,0 +1,11 @@
+# M17-late-report-applies-output: A late completion on a cancelled run stores its output on the task.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -368,6 +368,7 @@
+     entry.endedAt = this.state.now;
+ 
+     if (run.status === "cancelled") {
++      ts.output = output;
+       this.emit(run, "task.late_report", lease.task, {
+         attempt: lease.attempt,
+         leaseId: lease.id,

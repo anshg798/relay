@@ -1,0 +1,12 @@
+# M09-idempotency-ignores-input: Idempotent replay only compares the workflow, not the input.
+--- a/src/engine.ts
++++ b/src/engine.ts
+@@ -156,7 +156,7 @@
+ 
+     const prior = this.state.idempotency[k];
+     if (prior) {
+-      if (prior.workflowId === workflowId && prior.canon === canon) {
++      if (prior.workflowId === workflowId) {
+         return { status: 200, body: this.runView(this.state.runs[prior.runId]) };
+       }
+       throw new ApiError(409, "idempotency_conflict", "key reused with different request");
